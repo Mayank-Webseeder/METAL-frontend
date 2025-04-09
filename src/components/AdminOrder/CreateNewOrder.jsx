@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { X, Upload, Users, PackageCheck } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import Loader from './Loader';
-import useCustomers from "./useCustomers";
-import useGraphicsUsers from "./useGraphicsUsers";
+import Loader from '../../pages/Loader';
+import useCustomers from "../../pages/useCustomers";
+import useGraphicsUsers from "../../pages/useGraphicsUsers";
 
 const CreateNewOrder = ({ onClose, addOrder }) => {
     const BASE_URL = import.meta.env.VITE_BASE_URL;

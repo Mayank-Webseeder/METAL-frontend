@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { X, Upload, FileEdit, Eye } from "lucide-react";
-import Loader from "./Loader";
-import useGraphicsUsers from "./useGraphicsUsers";
+import Loader from "../../pages/Loader";
+import useGraphicsUsers from "../../pages/useGraphicsUsers";
 
 const EditOrder = ({ onClose, editOrder }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;

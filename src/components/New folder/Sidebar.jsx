@@ -39,12 +39,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     ],
     Graphics: [
       { name: 'Orders', icon: FileText, path: '/graphics-order' },
-      { name: 'Customers', icon: Contact2, path: '/customers' },
-      { name: 'Gallery', icon: Image, path: '/gallery' },
+      // { name: 'Customers', icon: Contact2, path: '/customers' },
+      // { name: 'Gallery', icon: Image, path: '/gallery' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Display: [
-      { name: 'OrdersDisplay', icon: FileText, path: '/display-order' },
+      { name: 'Orders', icon: FileText, path: '/display-order' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Accounts: [

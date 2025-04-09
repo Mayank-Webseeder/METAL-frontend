@@ -368,10 +368,10 @@
 import React, { useEffect, useState } from "react";
 import { Plus, Search, Edit, Trash2, ChevronDown, Eye } from "lucide-react";
 import Loader from "./Loader";
-import CreateNewOrder from "./CreateNewOrder";
-import EditOrder from "./EditOrder";
-import ImagePreviewModal from "./ImagePreviewModal";
-import OrderDetailsModal from "./OrderDetailsModal"; // Import the new component
+import CreateNewOrder from "../components/AdminOrder/CreateNewOrder";
+import EditOrder from "../components/AdminOrder/EditOrder";
+import ImagePreviewModal from "../components/AdminOrder/ImagePreviewModal";
+import OrderDetailsModal from "../components/AdminOrder/OrderDetailsModal"; // Import the new component
 
 const Orders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
