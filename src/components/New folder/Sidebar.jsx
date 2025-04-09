@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Display: [
-      { name: 'Orders', icon: FileText, path: '/orders' },
+      { name: 'OrdersDisplay', icon: FileText, path: '/display-order' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Accounts: [

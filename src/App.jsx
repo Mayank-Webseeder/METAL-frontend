@@ -83,6 +83,8 @@ import Settings from './pages/Settings';
 import Header from './components/New folder/Header';
 import { SocketProvider } from "./socket";
 import GraphicsOrder from './pages/GraphicsOrder';
+import DisplayOrder from './pages/DisplayOrder';
+
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -162,6 +164,7 @@ function App() {
                         <Route path="/financial" element={<Financial />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/graphics-order" element={<GraphicsOrder />} />
+                        <Route path="/display-order" element={<DisplayOrder />} />
                       </Routes>
                     </main>
                   </div>
