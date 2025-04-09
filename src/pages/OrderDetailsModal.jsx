@@ -1415,41 +1415,6 @@ const OrderDetailsModal = ({ order, onClose }) => {
     }
   };
 
-  // const handleAssignOrder = async () => {
-  //   if (!selectedDisplayUser) {
-  //     setAssignError("Please select a display user");
-  //     return;
-  //   }
-
-  //   try {
-  //     setAssignLoading(true);
-  //     setAssignError(null);
-  //     const token = localStorage.getItem("token");
-      
-  //     const response = await axios.post(
-  //       `${BASE_URL}/api/v1/display/assignOrder/${order._id}`,
-  //       { displayUserId: selectedDisplayUser },
-  //       {
-  //         headers: { Authorization: `${token}` },
-  //         withCredentials: true,
-  //       }
-  //     );
-
-  //     if (response.data.success) {
-  //       setAssignSuccess(true);
-  //       // Reset success message after 3 seconds
-  //       setTimeout(() => setAssignSuccess(false), 3000);
-  //     } else {
-  //       setAssignError("Failed to assign order");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error assigning order:", error);
-  //     setAssignError(error.response?.data?.message || "Failed to assign order");
-  //   } finally {
-  //     setAssignLoading(false);
-  //   }
-  // };
-
   const handleAssignOrder = async () => {
     if (!selectedDisplayUser) {
       setAssignError("Please select a display user");
