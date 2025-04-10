@@ -1550,6 +1550,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
       setTimeout(() => setDownloadingFile(null), 1000);
     }
   };
+  console.log("order", fileData);
 
   const renderDetailsTab = () => (
     <div className="space-y-8">
