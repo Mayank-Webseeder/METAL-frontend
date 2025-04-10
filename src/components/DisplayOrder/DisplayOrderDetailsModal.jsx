@@ -30,15 +30,15 @@ const FileDownloadManager = ({ order, baseUrl }) => {
       switch (downloadType) {
         case "all":
           // Download all files (both CAD and images)
-          url = `${API_PREFIX}/admin/files/download-all/${documentId}`;
+          url = `${API_PREFIX}/admin/file/download-all/${documentId}`;
           break;
         case "type":
           // Download all files of a specific type (CAD or images)
-          url = `${API_PREFIX}/admin/files/download-all-type/${documentId}?type=${fileType}`;
+          url = `${API_PREFIX}/admin/file/download-all-type/${documentId}?type=${fileType}`;
           break;
         case "single":
           // Download a specific file
-          url = `${API_PREFIX}/admin/files/download/${documentId}/${fileIndex}?type=${fileType}`;
+          url = `${API_PREFIX}/admin/file/download/${documentId}/${fileIndex}?type=${fileType}`;
           break;
         default:
           throw new Error("Invalid download type");
@@ -85,6 +85,7 @@ const FileDownloadManager = ({ order, baseUrl }) => {
 // CadFilesSection component to display and handle CAD files
 const CadFilesSection = ({ fileData, order, downloadFile, downloadingFile, baseUrl }) => {
   // Check if cadFiles exists and has items
+  console.log("order datat:", order);
   if (!fileData?.cadFiles || fileData.cadFiles.length === 0) return null;
 
   return (
