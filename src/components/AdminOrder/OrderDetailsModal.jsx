@@ -1348,6 +1348,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Download, Loader, FileText, Camera, Package, User, Calendar, List, CheckCircle, UserPlus } from "lucide-react";
 import axios from "axios"; // Make sure axios is imported
+import AccountAssign from "./AccountAssign";
 
 const OrderDetailsModal = ({ order, onClose }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -1928,8 +1929,15 @@ const OrderDetailsModal = ({ order, onClose }) => {
     </div>
   );
 
-  if (!order) return null;
+  const renderAccountsTab = () => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">  
+      {/* Accounting User Assignment */}
+      <AccountAssign order={order} BASE_URL={BASE_URL} />
+    </div>
+  );
 
+
+  if (!order) return null;
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
@@ -1950,7 +1958,6 @@ const OrderDetailsModal = ({ order, onClose }) => {
             <X className="h-5 w-5" />
           </button>
         </div>
-
         <div className="flex border-b bg-gray-50">
           <button
             onClick={() => setActiveTab("details")}
@@ -1982,14 +1989,25 @@ const OrderDetailsModal = ({ order, onClose }) => {
           >
             Assign Order
           </button>
+          <button
+            onClick={() => setActiveTab("accounts")}
+            className={`px-6 py-3 text-sm font-medium transition-colors ${
+              activeTab === "accounts"
+                ? "border-b-2 border-blue-600 text-blue-600 bg-white"
+                : "text-gray-600 hover:text-gray-800"
+            }`}
+          >
+            Accounts
+          </button>
         </div>
-
         <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
           {activeTab === "details" 
             ? renderDetailsTab() 
             : activeTab === "files" 
               ? renderFilesTab() 
-              : renderAssignTab()}
+              : activeTab === "assign" 
+                ? renderAssignTab()
+                : renderAccountsTab()}
         </div>
       </div>
     </div>
@@ -1997,3 +2015,74 @@ const OrderDetailsModal = ({ order, onClose }) => {
 };
 
 export default OrderDetailsModal;
+
+
+//   if (!order) return null;
+
+//   return (
+//     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+//       <div className="bg-white rounded-2xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+//         <div className="sticky top-0 bg-white px-6 py-4 flex justify-between items-center border-b z-10">
+//           <div className="flex items-center space-x-3">
+//             <div className="bg-blue-100 p-2 rounded-full">
+//               <Package className="h-5 w-5 text-blue-600" />
+//             </div>
+//             <h2 className="text-xl font-bold text-gray-800">Order #{order.orderId}</h2>
+//             <span className={`px-2 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
+//               {order.status}
+//             </span>
+//           </div>
+//           <button
+//             onClick={onClose}
+//             className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700"
+//           >
+//             <X className="h-5 w-5" />
+//           </button>
+//         </div>
+
+//         <div className="flex border-b bg-gray-50">
+//           <button
+//             onClick={() => setActiveTab("details")}
+//             className={`px-6 py-3 text-sm font-medium transition-colors ${
+//               activeTab === "details"
+//                 ? "border-b-2 border-blue-600 text-blue-600 bg-white"
+//                 : "text-gray-600 hover:text-gray-800"
+//             }`}
+//           >
+//             Order Details
+//           </button>
+//           <button
+//             onClick={() => setActiveTab("files")}
+//             className={`px-6 py-3 text-sm font-medium transition-colors ${
+//               activeTab === "files"
+//                 ? "border-b-2 border-blue-600 text-blue-600 bg-white"
+//                 : "text-gray-600 hover:text-gray-800"
+//             }`}
+//           >
+//             Files
+//           </button>
+//           <button
+//             onClick={() => setActiveTab("assign")}
+//             className={`px-6 py-3 text-sm font-medium transition-colors ${
+//               activeTab === "assign"
+//                 ? "border-b-2 border-blue-600 text-blue-600 bg-white"
+//                 : "text-gray-600 hover:text-gray-800"
+//             }`}
+//           >
+//             Assign Order
+//           </button>
+//         </div>
+
+//         <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
+//           {activeTab === "details" 
+//             ? renderDetailsTab() 
+//             : activeTab === "files" 
+//               ? renderFilesTab() 
+//               : renderAssignTab()}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default OrderDetailsModal;
