@@ -25,6 +25,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       { name: 'User Management', icon: Users, path: '/user-management' },
       { name: 'Orders', icon: FileText, path: '/orders' },
       { name: 'Customers', icon: Contact2, path: '/customers' },
+      { name: 'Lead', icon: ListTodo, path: '/leads' },
       // { name: 'Gallery', icon: Image, path: '/gallery' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' },
       { name: 'Financial', icon: DollarSign, path: '/financial' }
