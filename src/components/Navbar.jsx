@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import moment from "moment";
 import { useSocketEvents } from "../../src/hooks/useSocketEvents";
 import { useSocket } from "../socket";
 
@@ -24,13 +25,11 @@ function Navbar({ toggleSidebar }) {
 
   // Message handler
   const messageHandler = useCallback((message) => {
-    console.log("Socket message received:", message);
-    
     // Add the new notification
     const newNotification = {
       id: Date.now(),
       text: message,
-      time: "Just now"
+      time: moment().format('hh:mm A')
     };
     
     setNotifications(prev => [newNotification, ...prev]);
@@ -41,12 +40,12 @@ function Navbar({ toggleSidebar }) {
   useSocketEvents({
     "message": messageHandler,
     "assignment": (data) => {
-      console.log("Assignment received:", data);
       const newNotification = {
-        id: Date.now(),
+        id: data.orderId || Date.now(),
         text: data.message || "New assignment received",
-        time: "Just now"
+        time: moment().format('hh:mm A') // Current time in 12-hour format
       };
+      
       setNotifications(prev => [newNotification, ...prev]);
       toast.success(data.message || "New assignment received");
     }
@@ -102,6 +101,7 @@ function Navbar({ toggleSidebar }) {
             <button
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 lg:hidden"
               onClick={toggleSidebar}
+              aria-label="Toggle sidebar"
             >
               <Bars3Icon className="h-6 w-6" />
             </button>
@@ -117,48 +117,66 @@ function Navbar({ toggleSidebar }) {
             </div>
           </div>
 
-          {/* Rest of your navbar code remains the same */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             <div className="relative notifications-container">
-              {/* Notifications code remains the same */}
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                aria-label={`${notifications.length} notifications`}
+                aria-expanded={showNotifications}
               >
                 <div className="relative">
                   <BellIcon className="h-6 w-6" />
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 flex items-center justify-center text-xs text-white">
-                    {notifications.length}
-                  </span>
+                  {notifications.length > 0 && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 flex items-center justify-center text-xs text-white">
+                      {notifications.length}
+                    </span>
+                  )}
                 </div>
               </button>
               {showNotifications && (
-                <div className="origin-top-right absolute right-0 mt-2 w-72 sm:w-80 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                <div 
+                  className="origin-top-right absolute right-0 mt-2 w-72 sm:w-80 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                  role="menu"
+                  aria-orientation="vertical"
+                >
                   <div className="px-4 py-2 border-b border-gray-200">
                     <p className="text-sm font-medium text-gray-700">
                       Notifications
                     </p>
                   </div>
                   <div className="max-h-64 overflow-y-auto">
-                    {notifications.map((notification) => (
-                      <div
-                        key={notification.id}
-                        className="px-4 py-3 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <p className="text-sm text-gray-700">
-                          {notification.text}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {notification.time}
-                        </p>
+                    {notifications.length > 0 ? (
+                      notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className="px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                          role="menuitem"
+                        >
+                          <p className="text-sm text-gray-700">
+                            {notification.text}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {notification.time}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-center text-sm text-gray-500">
+                        No notifications yet
                       </div>
-                    ))}
+                    )}
                   </div>
-                  <div className="px-4 py-2 border-t border-gray-200 text-center">
-                    <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
-                      View all
-                    </button>
-                  </div>
+                  {notifications.length > 0 && (
+                    <div className="px-4 py-2 border-t border-gray-200 text-center">
+                      <button 
+                        className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                        role="menuitem"
+                      >
+                        View all
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -166,6 +184,7 @@ function Navbar({ toggleSidebar }) {
             <button
               className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={() => navigate("/settings")}
+              aria-label="Settings"
             >
               <Cog6ToothIcon className="h-6 w-6" />
             </button>

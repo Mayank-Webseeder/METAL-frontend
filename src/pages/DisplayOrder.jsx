@@ -13,6 +13,8 @@ import Loader from './Loader';
 import DisplayOrderDetailsModal from '../components/DisplayOrder/DisplayOrderDetailsModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSocketEvents } from "../../src/hooks/useSocketEvents";
+import { useSocket } from "../socket";
 
 const DisplayOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -37,6 +39,22 @@ const DisplayOrders = () => {
     "Completed": "bg-green-100 text-green-800",
     "Failed": "bg-red-100 text-red-800"
   };
+
+   const setStatusHandler = (data) => {
+      setOrders(prevOrders => 
+        prevOrders.map(order => 
+          order._id === data.orderId 
+            ? { ...order, ...data.order } 
+            : order
+        )
+      );
+      
+      // Show a toast notification
+      toast.info(`Order #${data.order.orderId} has been updated by admin`);
+    };
+  useSocketEvents({
+      "orderUpdated": setStatusHandler,
+    });
 
   useEffect(() => {
     fetchOrders();

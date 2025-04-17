@@ -372,7 +372,8 @@ import CreateNewOrder from "../components/AdminOrder/CreateNewOrder";
 import EditOrder from "../components/AdminOrder/EditOrder";
 import ImagePreviewModal from "../components/AdminOrder/ImagePreviewModal";
 import OrderDetailsModal from "../components/AdminOrder/OrderDetailsModal"; // Import the new component
-
+import { useSocketEvents } from "../../src/hooks/useSocketEvents";
+import { useSocket } from "../socket";
 const Orders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -387,10 +388,23 @@ const Orders = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null); // Added for order details modal
   const [showDetailsModal, setShowDetailsModal] = useState(false); // Added for order details modal
+  const { socket, connected } = useSocket();
 
   useEffect(() => {
     fetchOrders();
   }, []);
+  const setStatusHandler = ({orderId, status}) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order._id === orderId
+          ? { ...order, status: status }
+          : order
+      )
+    );
+  };
+useSocketEvents({
+    "changeStatus": setStatusHandler,
+  });
 
   const addOrder = (newOrder) => {
     setOrders((prevOrders) => [...prevOrders, newOrder]);
