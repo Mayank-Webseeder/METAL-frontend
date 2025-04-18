@@ -29,13 +29,12 @@ const DisplayOrders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   
   // Status options based on the allowed statuses for display users
-  const statusOptions = ["Pending", "InProgress", "Reviewed", "Completed"];
+  const statusOptions = ["Pending", "InProgress","Completed"];
   
   // Status color mapping
   const statusColors = {
     "Pending": "bg-gray-100 text-gray-800",
     "InProgress": "bg-blue-100 text-blue-800",
-    "Reviewed": "bg-purple-100 text-purple-800",
     "Completed": "bg-green-100 text-green-800",
     "Failed": "bg-red-100 text-red-800"
   };
@@ -110,7 +109,7 @@ const DisplayOrders = () => {
       setUpdateStatus({ loading: true, error: null, success: null });
       const token = localStorage.getItem("token");
       
-      const response = await fetch(`${BASE_URL}/api/v1/admin/updateStatus`, {
+      const response = await fetch(`${BASE_URL}/api/v1/admin/display/changeStatus`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

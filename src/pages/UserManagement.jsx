@@ -988,7 +988,8 @@ const UserManagement = () => {
       Graphics: "bg-green-100 text-green-800",
       Display: "bg-purple-100 text-purple-800",
       Accounts: "bg-yellow-100 text-yellow-800",
-      SuperAdmin: "bg-red-100 text-red-800"
+      SuperAdmin: "bg-red-100 text-red-800",
+      Viewer: "bg-red-400 text-gray-800"
     };
 
     return (
@@ -1055,6 +1056,7 @@ const UserManagement = () => {
                   <option value="Graphics">Graphics</option>
                   <option value="Display">Display</option>
                   <option value="Accounts">Accounts</option>
+                  <option value="Viewer">Viewer</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
               </div>
