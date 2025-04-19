@@ -50,6 +50,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     ],
     Accounts: [
       { name: 'Accounts', icon: DollarSign, path: '/accounts-order' }
+    ],
+    Viewer: [
+      { name: 'Orders', icon: FileText, path: '/view-order' }
     ]
   };
 

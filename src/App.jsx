@@ -85,6 +85,7 @@ import { SocketProvider } from "./socket";
 import GraphicsOrder from './pages/GraphicsOrder';
 import DisplayOrder from './pages/DisplayOrder';
 import AccountOrder from './pages/AccountsOrder';
+import ViewOrder from './pages/ViewOrders';
 
 
 function App() {
@@ -167,6 +168,7 @@ function App() {
                         <Route path="/graphics-order" element={<GraphicsOrder />} />
                         <Route path="/display-order" element={<DisplayOrder />} />
                         <Route path="/accounts-order" element={<AccountOrder />} />
+                        <Route path="/view-order" element={<ViewOrder />} />
                       </Routes>
                     </main>
                   </div>
