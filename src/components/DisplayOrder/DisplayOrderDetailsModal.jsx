@@ -397,51 +397,6 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
         </div>
       </div>
 
-      {/* Mark as Reviewed button */}
-      {/* <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-5">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Order Actions</h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Update order status after reviewing</p>
-                <div className="flex space-x-2">
-                  {statusOptions.map(status => (
-                    <span 
-                      key={status}
-                      className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        order.status === status ? getStatusColor(status) : "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {status}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <button
-                onClick={handleMarkAsReviewed}
-                disabled={updateStatusLoading || order.status === "Reviewed" || order.status === "Completed"}
-                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center 
-                  ${order.status === "Reviewed" || order.status === "Completed" 
-                    ? "bg-gray-100 text-gray-500 cursor-not-allowed" 
-                    : "bg-purple-600 text-white hover:bg-purple-700"}`}
-              >
-                {updateStatusLoading ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                    Updating...
-                  </>
-                ) : (
-                  <>
-                    <ThumbsUp className="h-4 w-4 mr-2" />
-                    Mark as Reviewed
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
       
       {order.image && order.image.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

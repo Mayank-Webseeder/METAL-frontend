@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { X, Upload, FileEdit, Eye } from "lucide-react";
 import Loader from "../../pages/Loader";
 import useGraphicsUsers from "../../pages/useGraphicsUsers";
+import toast from "react-hot-toast";
 
 const EditOrder = ({ onClose, editOrder }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -121,12 +122,13 @@ const EditOrder = ({ onClose, editOrder }) => {
       
       const result = await response.json();
       console.log("Order Updated:", result);
-      
+      toast.success("Order updated successfully!");
+
       if (onClose) onClose();
       window.location.reload();
     } catch (error) {
       console.error("Error updating order:", error);
-      alert("Something went wrong: " + error.message);
+      toast.error("Something went wrong: " + error.message);
     } finally {
       setSubmitting(false);
     }

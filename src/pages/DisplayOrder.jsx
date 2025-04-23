@@ -184,7 +184,7 @@ const DisplayOrders = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       
       <div className="container mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
+        {/* <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Display Orders</h1>
             <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-600">
@@ -198,7 +198,7 @@ const DisplayOrders = () => {
             <RefreshCw className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Refresh Orders
           </button>
         </div>
-        
+         */}
         {/* Status update feedback messages */}
         {updateStatus.loading && (
           <div className="bg-blue-50 border border-blue-200 text-blue-700 p-3 rounded-lg mb-4 flex items-center">

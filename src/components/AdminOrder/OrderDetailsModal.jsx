@@ -3,6 +3,7 @@ import { X, Download, Loader, FileText, Camera, Package, User, Calendar, List, C
 import axios from "axios"; // Make sure axios is imported
 import AccountAssign from "./AccountAssign";
 import Logs from "./Logs";
+import toast from "react-hot-toast";
 
 const OrderDetailsModal = ({ order, onClose }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -97,10 +98,12 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
       if (response.data.success) {
         setAssignSuccess(true);
+        toast.success("Order assigned successfully!");
         // Reset success message after 3 seconds
         setTimeout(() => setAssignSuccess(false), 3000);
       } else {
         setAssignError("Failed to assign order");
+        toast.error("Failed to assign order");
       }
     } catch (error) {
       console.error("Error assigning order:", error);

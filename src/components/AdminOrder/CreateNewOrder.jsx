@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../../pages/Loader';
 import useCustomers from "../../pages/useCustomers";
 import useGraphicsUsers from "../../pages/useGraphicsUsers";
+import toast from "react-hot-toast";
 
 const CreateNewOrder = ({ onClose, addOrder }) => {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -21,7 +22,6 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
         dimensions: "",
         status: "New",
         assignedTo: "",
-        //assignedToId: "",
         files: [],
         imagePreview: []
     });
@@ -50,7 +50,7 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
         setLoading(true);
     
         if (!order.customerId) {
-            alert("Please select a customer from the dropdown");
+            toast.error("Please select a customer from the dropdown");
             setLoading(false);
             return;
         }
@@ -88,13 +88,14 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
     
             const result = await response.json();
             console.log("Order Created:", result);
+            toast.success("Order created successfully");
     
             if (onClose) onClose();
             window.location.reload();
     
         } catch (error) {
             console.error("Error creating order:", error);
-            alert(`Something went wrong: ${error.message}`);
+            toast.error(`Something went wrong: ${error.message}`);
         } finally {
             setLoading(false);
         }
