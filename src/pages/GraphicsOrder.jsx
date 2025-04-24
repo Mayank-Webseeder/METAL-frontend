@@ -387,7 +387,9 @@ const GraphicsOrders = () => {
                             >
                               <Eye className="h-3 w-3 mr-1" /> View Files
                             </button>
-                          ) : null}
+                          ) : null
+                          
+                          }
                          
                           <div className="relative">
                             <select 

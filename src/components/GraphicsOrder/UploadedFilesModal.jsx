@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Download, File, Image, Trash2, AlertTriangle } from "lucide-react";
 
-const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
+const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
   const [activeTab, setActiveTab] = useState('images');
   const [fileData, setFileData] = useState({ photo: [], CadFile: [] });
   const [loading, setLoading] = useState(true);
@@ -12,9 +12,14 @@ const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
 
   useEffect(() => {
     if (order && order._id) {
+      // Skip fetch if we already know there are no files
+      if (filesFetchError) {
+        setLoading(false);
+        return;
+      }
       fetchFilesData(order._id);
     }
-  }, [order]);
+  }, [order, filesFetchError]);
 
   const fetchFilesData = async (orderId) => {
     try {
@@ -31,7 +36,9 @@ const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch files");
+        // Don't throw an error, just handle as empty data
+        setFileData({ photo: [], CadFile: [] });
+        return;
       }
 
       const result = await response.json();
@@ -44,12 +51,14 @@ const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
           CadFile: combinedCadFiles
         });
       } else {
-        throw new Error(result.message || "Failed to retrieve files");
+        // Don't throw an error, just handle as empty data
+        setFileData({ photo: [], CadFile: [] });
       }
 
     } catch (err) {
       console.error("Error fetching files:", err);
-      setError(err.message);
+      // Don't set error state, just handle as empty data
+      setFileData({ photo: [], CadFile: [] });
     } finally {
       setLoading(false);
     }
@@ -187,15 +196,11 @@ const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
           <div className="flex justify-center items-center h-32">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
           </div>
-        ) : error ? (
-          <div className="flex flex-col items-center justify-center h-32 text-red-500">
-            <p className="mb-2">Error: {error}</p>
-            <button
-              onClick={() => fetchFilesData(order._id)}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700"
-            >
-              Try Again
-            </button>
+        ) : filesFetchError ? (
+          <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+            <File className="h-12 w-12 mb-3 text-gray-400" />
+            <p className="text-lg font-medium">No CAD files or images available</p>
+            <p className="text-sm text-gray-400 mt-1">Upload files using the Upload button</p>
           </div>
         ) : (
           <div className="overflow-y-auto flex-1">
@@ -290,4 +295,3 @@ const UploadedFilesModal = ({ order, onClose, baseUrl }) => {
 };
 
 export default UploadedFilesModal;
-

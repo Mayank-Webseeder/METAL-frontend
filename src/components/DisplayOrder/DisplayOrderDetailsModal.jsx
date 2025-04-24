@@ -332,7 +332,7 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
     <div className="space-y-8">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="flex flex-col md:flex-row border-b border-gray-100">
-          <div className="w-full md:w-1/2 p-5 md:border-r border-gray-100">
+          <div className="w-full md:w-full p-5 md:border-r border-gray-100">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-blue-50 p-2 rounded-lg">
                 <Package className="h-5 w-5 text-blue-600" />
@@ -364,7 +364,7 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
             </div>
           </div>
           
-          <div className="w-full md:w-1/2 p-5">
+          {/* <div className="w-full md:w-1/2 p-5">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-indigo-50 p-2 rounded-lg">
                 <User className="h-5 w-5 text-indigo-600" />
@@ -381,7 +381,7 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
                 <span className="text-sm">{order.customer?.email || "Not available"}</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         
         <div className="p-5">
@@ -438,7 +438,13 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
           <Loader className="animate-spin h-10 w-10 text-blue-500 mb-4" />
           <span className="text-gray-600">Loading files...</span>
         </div>
-      ) : error ? (
+      ) : !fileData || ((!fileData.cadFiles || fileData.cadFiles.length === 0) && 
+                        (!fileData.images || fileData.images.length === 0)) ? (
+        <div className="flex flex-col justify-center items-center py-16">
+          <FileText className="h-10 w-10 text-gray-400 mb-4" />
+          <span className="text-gray-600">No files available for this order</span>
+        </div>
+      )  : error ? (
         <div className="flex flex-col justify-center items-center py-16">
           <AlertCircle className="h-10 w-10 text-red-500 mb-4" />
           <span className="text-red-600 font-medium mb-2">Error loading files</span>
@@ -450,13 +456,8 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
             Try Again
           </button>
         </div>
-      ) : !fileData || ((!fileData.cadFiles || fileData.cadFiles.length === 0) && 
-                        (!fileData.images || fileData.images.length === 0)) ? (
-        <div className="flex flex-col justify-center items-center py-16">
-          <FileText className="h-10 w-10 text-gray-400 mb-4" />
-          <span className="text-gray-600">No files available for this order</span>
-        </div>
-      ) : (
+      )
+      : (
         <div className="space-y-8">
           {/* Download All Files Button */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
