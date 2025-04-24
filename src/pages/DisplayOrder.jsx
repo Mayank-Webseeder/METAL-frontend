@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { 
-  RefreshCw, 
-  ChevronDown, 
-  Search, 
-  Package, 
+import {
+  RefreshCw,
+  ChevronDown,
+  Search,
+  Package,
   AlertCircle,
   Eye,
   FileText,
@@ -25,12 +25,12 @@ const DisplayOrders = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  
+
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  
+
   // Status options based on the allowed statuses for display users
-  const statusOptions = ["Pending", "InProgress","Completed"];
-  
+  const statusOptions = ["Pending", "InProgress", "Completed"];
+
   // Status color mapping
   const statusColors = {
     "Pending": "bg-gray-100 text-gray-800",
@@ -39,32 +39,32 @@ const DisplayOrders = () => {
     "Failed": "bg-red-100 text-red-800"
   };
 
-   const setStatusHandler = (data) => {
-      setOrders(prevOrders => 
-        prevOrders.map(order => 
-          order._id === data.orderId 
-            ? { ...order, ...data.order } 
-            : order
-        )
-      );
-      
-      // Show a toast notification
-      toast.info(`Order #${data.order.orderId} has been updated by admin`);
-    };
+  const setStatusHandler = (data) => {
+    setOrders(prevOrders =>
+      prevOrders.map(order =>
+        order._id === data.orderId
+          ? { ...order, ...data.order }
+          : order
+      )
+    );
+
+    // Show a toast notification
+    toast.info(`Order #${data.order.orderId} has been updated by admin`);
+  };
   useSocketEvents({
-      "orderUpdated": setStatusHandler,
-    });
+    "orderUpdated": setStatusHandler,
+  });
 
   useEffect(() => {
     fetchOrders();
   }, []);
-  
+
   useEffect(() => {
     // Filter orders based on search term and status
     let result = orders;
-    
+
     if (searchTerm) {
-      result = result.filter(order => 
+      result = result.filter(order =>
         order.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.requirements.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -83,14 +83,14 @@ const DisplayOrders = () => {
       const token = localStorage.getItem("token");
       // Using the display user endpoint to get assigned orders
       const endpoint = `${BASE_URL}/api/v1/admin/assigned`;
-        
+
       const response = await fetch(endpoint, {
         method: "GET",
         headers: { Authorization: `${token}` },
       });
-      
+
       if (!response.ok) throw new Error("Failed to fetch orders");
-      
+
       const data = await response.json();
       console.log("Fetched display orders:", data);
       const ordersData = data.data || [];
@@ -108,50 +108,50 @@ const DisplayOrders = () => {
     try {
       setUpdateStatus({ loading: true, error: null, success: null });
       const token = localStorage.getItem("token");
-      
+
       const response = await fetch(`${BASE_URL}/api/v1/admin/display/changeStatus`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `${token}` 
+          "Authorization": `${token}`
         },
         body: JSON.stringify({ orderId, status })
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(result.message || "Failed to update status");
       }
-      
+
       // Update the local state to reflect the change
-      setOrders(orders.map(order => 
+      setOrders(orders.map(order =>
         order._id === orderId ? { ...order, status } : order
       ));
-      
-      setUpdateStatus({ 
-        loading: false, 
-        error: null, 
-        success: `Order status updated to ${status}` 
+
+      setUpdateStatus({
+        loading: false,
+        error: null,
+        success: `Order status updated to ${status}`
       });
-      
+
       toast.success(`Order status updated to ${status}`);
-      
+
       // Clear success message after 3 seconds
       setTimeout(() => {
         setUpdateStatus(prev => ({ ...prev, success: null }));
       }, 3000);
-      
+
     } catch (error) {
       console.error("Error updating status:", error);
-      setUpdateStatus({ 
-        loading: false, 
-        error: error.message, 
-        success: null 
+      setUpdateStatus({
+        loading: false,
+        error: error.message,
+        success: null
       });
-      
+
       toast.error(`Failed to update status: ${error.message}`);
-      
+
       // Clear error message after 5 seconds
       setTimeout(() => {
         setUpdateStatus(prev => ({ ...prev, error: null }));
@@ -161,7 +161,7 @@ const DisplayOrders = () => {
 
   const renderStatusBadge = (status) => {
     return (
-      <span 
+      <span
         className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 text-gray-800'}`}
       >
         {status}
@@ -182,7 +182,7 @@ const DisplayOrders = () => {
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-6 md:p-8">
       <ToastContainer position="top-right" autoClose={3000} />
-      
+
       <div className="container mx-auto">
         {/* <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
           <div>
@@ -206,14 +206,14 @@ const DisplayOrders = () => {
             Updating status...
           </div>
         )}
-        
+
         {updateStatus.error && (
           <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg mb-4 flex items-center">
             <AlertCircle className="h-4 w-4 mr-2" />
             {updateStatus.error}
           </div>
         )}
-        
+
         {updateStatus.success && (
           <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg mb-4">
             {updateStatus.success}
@@ -257,7 +257,7 @@ const DisplayOrders = () => {
             <div className="p-8 text-center">
               <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-4" />
               <p className="text-red-500 font-medium">Error: {error}</p>
-              <button 
+              <button
                 onClick={fetchOrders}
                 className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors text-sm"
               >
@@ -315,10 +315,10 @@ const DisplayOrders = () => {
                               {order.cadFiles.length} CAD Files
                             </span>
                           )}
-                          {(!order.image || order.image.length === 0) && 
-                           (!order.cadFiles || order.cadFiles.length === 0) && (
-                            <span className="text-xs text-gray-500">No files</span>
-                          )}
+                          {(!order.image || order.image.length === 0) &&
+                            (!order.cadFiles || order.cadFiles.length === 0) && (
+                              <span className="text-xs text-gray-500">No files</span>
+                            )}
                         </div>
                       </td>
                       <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
@@ -330,9 +330,9 @@ const DisplayOrders = () => {
                           >
                             <Eye className="h-3 w-3 mr-1" /> View Details
                           </button>
-                          
+
                           <div className="relative">
-                            <select 
+                            <select
                               className="text-xs sm:text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                               onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
                               value={order.status || ""}
@@ -356,7 +356,7 @@ const DisplayOrders = () => {
           )}
         </div>
       </div>
-      
+
       {/* Order Details Modal */}
       {selectedOrder && (
         <DisplayOrderDetailsModal

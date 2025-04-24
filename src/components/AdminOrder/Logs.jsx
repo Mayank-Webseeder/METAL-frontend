@@ -54,9 +54,9 @@ const Logs = ({ order, BASE_URL }) => {
   };
 
   const formatDate = (dateString) => {
-    const options = { 
-      year: 'numeric', 
-      month: 'short', 
+    const options = {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -112,12 +112,12 @@ const Logs = ({ order, BASE_URL }) => {
             <h3 className="text-lg font-semibold text-gray-800">Activity Timeline</h3>
           </div>
         </div>
-        
+
         <div className="p-5">
           <div className="relative">
             {/* Timeline Line */}
             <div className="absolute top-0 left-6 bottom-0 w-0.5 bg-gray-200"></div>
-            
+
             {/* Timeline Items */}
             <div className="space-y-6">
               {logs.map((log) => (
@@ -126,7 +126,7 @@ const Logs = ({ order, BASE_URL }) => {
                   <div className="absolute left-0 p-2 rounded-full bg-white border-2 border-gray-200">
                     {getLogIcon(log)}
                   </div>
-                  
+
                   {/* Log Content */}
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-start mb-2">
@@ -137,7 +137,7 @@ const Logs = ({ order, BASE_URL }) => {
                         {formatDate(log.createdAt)}
                       </div>
                     </div>
-                    
+
                     {/* Show images if available */}
                     {(log.previmage?.length > 0 || log.afterimage?.length > 0) && (
                       <div className="mt-3 space-y-3">
@@ -147,9 +147,9 @@ const Logs = ({ order, BASE_URL }) => {
                             <div className="grid grid-cols-2 gap-2">
                               {log.previmage.map((img, idx) => (
                                 <div key={`prev-${idx}`} className="rounded-lg overflow-hidden border border-gray-200">
-                                  <img 
-                                    src={`${BASE_URL}${img}`} 
-                                    alt={`Previous ${idx+1}`} 
+                                  <img
+                                    src={`${BASE_URL}${img}`}
+                                    alt={`Previous ${idx + 1}`}
                                     className="w-full h-32 object-cover"
                                   />
                                 </div>
@@ -157,16 +157,16 @@ const Logs = ({ order, BASE_URL }) => {
                             </div>
                           </div>
                         )}
-                        
+
                         {log.afterimage?.length > 0 && (
                           <div>
                             <div className="text-xs font-medium text-gray-500 mb-2">Updated Image:</div>
                             <div className="grid grid-cols-2 gap-2">
                               {log.afterimage.map((img, idx) => (
                                 <div key={`after-${idx}`} className="rounded-lg overflow-hidden border border-gray-200">
-                                  <img 
-                                    src={`${BASE_URL}${img}`} 
-                                    alt={`Updated ${idx+1}`} 
+                                  <img
+                                    src={`${BASE_URL}${img}`}
+                                    alt={`Updated ${idx + 1}`}
                                     className="w-full h-32 object-cover"
                                   />
                                 </div>

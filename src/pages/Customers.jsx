@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, X, Search, MapPin, Phone, Mail, Edit, Trash2, ChevronDown, UserCog } from 'lucide-react';
+import { Plus, X, Search, MapPin, Phone, Mail, Edit, Trash2, ChevronDown, UserCog, User } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -233,7 +233,7 @@ const Customers = () => {
                       <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="h-8 w-8 md:h-10 md:w-10 bg-indigo-100 rounded-full flex items-center justify-center mr-2 md:mr-3 flex-shrink-0">
-                            <MapPin className="h-4 w-4 md:h-6 md:w-6 text-indigo-600" />
+                            <User className="h-4 w-4 md:h-6 md:w-6 text-indigo-600" />
                           </div>
                           <div>
                             <div className="text-sm font-medium text-gray-900">
