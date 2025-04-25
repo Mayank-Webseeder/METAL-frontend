@@ -309,14 +309,14 @@ const Sidebar = ({ isOpen, toggleSidebar, setActiveMenuItem }) => {
       // { name: 'Gallery', icon: Image, path: '/gallery' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
-    Display: [
+    Cutout: [
       { name: 'Orders', icon: FileText, path: '/display-order' },
       // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Accounts: [
       { name: 'Accounts', icon: DollarSign, path: '/accounts-order' }
     ],
-    Viewer: [
+    Display: [
       { name: 'Orders', icon: FileText, path: '/view-order' }
     ]
   };

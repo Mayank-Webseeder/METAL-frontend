@@ -58,7 +58,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
       });
 
       if (response.data.success) {
-        const filteredUsers = response.data.data.filter(user => user.accountType === "Display");
+        const filteredUsers = response.data.data.filter(user => user.accountType === "Cutout");
         setDisplayUsers(filteredUsers);
 
         // If the order is already assigned to a display user, preselect them

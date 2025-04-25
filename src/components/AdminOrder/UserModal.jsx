@@ -216,9 +216,9 @@ const UserModal = ({ mode, user, onClose, onSave, baseUrl }) => {
               >
                 <option value="Admin">Admin</option>
                 <option value="Graphics">Graphics</option>
-                <option value="Display">Display</option>
+                <option value="Cutout">Cutout</option>
                 <option value="Accounts">Accounts</option>
-                <option value="Viewer">Viewer</option>
+                <option value="Display">Display</option>
                 {isEditMode && formData.accountType === "SuperAdmin" && (
                   <option value="SuperAdmin">Super Admin</option>
                 )}
