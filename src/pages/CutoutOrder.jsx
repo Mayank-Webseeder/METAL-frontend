@@ -10,13 +10,13 @@ import {
   Download
 } from "lucide-react";
 import Loader from './Loader';
-import DisplayOrderDetailsModal from '../components/DisplayOrder/DisplayOrderDetailsModal';
+import CutoutOrderDetailsModal from '../components/CutoutOrder/CutoutOrderDetailsModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSocketEvents } from "../../src/hooks/useSocketEvents";
+import { useSocketEvents } from "../hooks/useSocketEvents";
 import { useSocket } from "../socket";
 
-const DisplayOrders = () => {
+const CutoutOrders = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const DisplayOrders = () => {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // Status options based on the allowed statuses for display users
+  // Status options based on the allowed statuses for Cutout users
   const statusOptions = ["Pending", "InProgress", "Completed"];
 
   // Status color mapping
@@ -81,7 +81,7 @@ const DisplayOrders = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      // Using the display user endpoint to get assigned orders
+      // Using the cutout user endpoint to get assigned orders
       const endpoint = `${BASE_URL}/api/v1/admin/assigned`;
 
       const response = await fetch(endpoint, {
@@ -92,7 +92,7 @@ const DisplayOrders = () => {
       if (!response.ok) throw new Error("Failed to fetch orders");
 
       const data = await response.json();
-      console.log("Fetched display orders:", data);
+      console.log("Fetched cutout orders:", data);
       const ordersData = data.data || [];
       setOrders(ordersData);
       setFilteredOrders(ordersData);
@@ -109,7 +109,7 @@ const DisplayOrders = () => {
       setUpdateStatus({ loading: true, error: null, success: null });
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${BASE_URL}/api/v1/admin/display/changeStatus`, {
+      const response = await fetch(`${BASE_URL}/api/v1/admin/cutout/changeStatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -186,9 +186,9 @@ const DisplayOrders = () => {
       <div className="container mx-auto">
         {/* <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Display Orders</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">cutout Orders</h1>
             <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-600">
-              View and manage orders assigned to your display account
+              View and manage orders assigned to your cutout account
             </p>
           </div>
           <button 
@@ -359,7 +359,7 @@ const DisplayOrders = () => {
 
       {/* Order Details Modal */}
       {selectedOrder && (
-        <DisplayOrderDetailsModal
+        <CutoutOrderDetailsModal
           order={selectedOrder}
           onClose={closeOrderDetails}
           onStatusUpdate={handleStatusUpdate}
@@ -370,4 +370,4 @@ const DisplayOrders = () => {
   );
 };
 
-export default DisplayOrders;
+export default CutoutOrders;

@@ -5,7 +5,7 @@ import ImagePreviewModal from "../components/AdminOrder/ImagePreviewModal";
 import OrderDetailsModal from "../components/ViewOrder/ViewOrderDetails";
 import RenderPagination from "../components/RenderPagination";
 
-const ViewOrders = () => {
+const DisplayOrders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
@@ -293,4 +293,4 @@ const ViewOrders = () => {
   );
 };
 
-export default ViewOrders;
+export default DisplayOrders;

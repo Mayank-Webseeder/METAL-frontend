@@ -13,8 +13,8 @@ const OrderDetailsModal = ({ order, onClose }) => {
   const [error, setError] = useState(null);
   const [downloadingFile, setDownloadingFile] = useState(null);
   const [activeTab, setActiveTab] = useState("details");
-  const [displayUsers, setDisplayUsers] = useState([]);
-  const [selectedDisplayUser, setSelectedDisplayUser] = useState("");
+  const [cutoutUsers, setCutoutUsers] = useState([]);
+  const [selectedCutoutUser, setSelectedCutoutUser] = useState("");
   const [assignLoading, setAssignLoading] = useState(false);
   const [assignSuccess, setAssignSuccess] = useState(false);
   const [assignError, setAssignError] = useState(null);
@@ -22,7 +22,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
   useEffect(() => {
     if (order) {
       fetchFileData();
-      fetchDisplayUsers();
+      fetchCutoutUsers();
     }
   }, [order]);
 
@@ -49,7 +49,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
     }
   };
 
-  const fetchDisplayUsers = async () => {
+  const fetchCutoutUsers = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(`${BASE_URL}/api/v1/auth/getAllUsers`, {
@@ -59,21 +59,21 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
       if (response.data.success) {
         const filteredUsers = response.data.data.filter(user => user.accountType === "Cutout");
-        setDisplayUsers(filteredUsers);
+        setCutoutUsers(filteredUsers);
 
-        // If the order is already assigned to a display user, preselect them
+        // If the order is already assigned to a Cutout user, preselect them
         if (order.assignedTo && filteredUsers.some(user => user._id === order.assignedTo._id)) {
-          setSelectedDisplayUser(order.assignedTo._id);
+          setSelectedCutoutUser(order.assignedTo._id);
         }
       }
     } catch (error) {
-      console.error("Error fetching display users:", error);
+      console.error("Error fetching Cutout users:", error);
     }
   };
 
   const handleAssignOrder = async () => {
-    if (!selectedDisplayUser) {
-      setAssignError("Please select a display user");
+    if (!selectedCutoutUser) {
+      setAssignError("Please select a Cutout user");
       return;
     }
 
@@ -83,10 +83,10 @@ const OrderDetailsModal = ({ order, onClose }) => {
       const token = localStorage.getItem("token");
 
       // Make sure we're using the correct API endpoint
-      // Note that we're now using '/api/v1/display/assignOrder/' instead of the previous path
+      // Note that we're now using '/api/v1/cutout/assignOrder/' instead of the previous path
       const response = await axios.post(
-        `${BASE_URL}/api/v1/admin/display/assignOrder/${order._id}`,
-        { displayUserId: selectedDisplayUser },
+        `${BASE_URL}/api/v1/admin/cutout/assignOrder/${order._id}`,
+        { cutoutUserId: selectedCutoutUser },
         {
           headers: {
             Authorization: `${token}`,
@@ -500,27 +500,27 @@ const OrderDetailsModal = ({ order, onClose }) => {
           <div className="bg-purple-50 p-2 rounded-lg">
             <UserPlus className="h-5 w-5 text-purple-600" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-800">Assign to Display Account</h3>
+          <h3 className="text-lg font-semibold text-gray-800">Assign to Cutout Account</h3>
         </div>
         <p className="text-gray-500 text-sm">
-          Assign this order to a display account user who will handle the processing and display of this order.
+          Assign this order to a Cutout account user who will handle the processing and Cutout of this order.
         </p>
       </div>
 
       <div className="p-6">
-        {/* Display user selection */}
+        {/* Cutout user selection */}
         <div className="mb-6">
-          <label htmlFor="displayUser" className="block text-sm font-medium text-gray-700 mb-2">
-            Select Display User
+          <label htmlFor="cutoutUser" className="block text-sm font-medium text-gray-700 mb-2">
+            Select Cutout User
           </label>
           <select
-            id="displayUser"
-            value={selectedDisplayUser}
-            onChange={(e) => setSelectedDisplayUser(e.target.value)}
+            id="cutoutUser"
+            value={selectedCutoutUser}
+            onChange={(e) => setSelectedCutoutUser(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
           >
-            <option value="">-- Select Display User --</option>
-            {displayUsers.map((user) => (
+            <option value="">-- Select Cutout User --</option>
+            {cutoutUsers.map((user) => (
               <option key={user._id} value={user._id}>
                 {user.firstName} {user.lastName} ({user.email})
               </option>
@@ -567,7 +567,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
         {/* Assign button */}
         <button
           onClick={handleAssignOrder}
-          disabled={assignLoading || !selectedDisplayUser}
+          disabled={assignLoading || !selectedCutoutUser}
           className="w-full py-3 px-4 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:bg-purple-300 disabled:cursor-not-allowed transition-colors shadow-sm flex items-center justify-center"
         >
           {assignLoading ? (
@@ -578,7 +578,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
           ) : (
             <>
               <UserPlus className="mr-2 h-5 w-5" />
-              Assign Order
+              Cutout
             </>
           )}
         </button>
@@ -642,13 +642,13 @@ const OrderDetailsModal = ({ order, onClose }) => {
             Files
           </button>
           <button
-            onClick={() => setActiveTab("assign")}
-            className={`px-6 py-3 text-sm font-medium transition-colors ${activeTab === "assign"
+            onClick={() => setActiveTab("cutout")}
+            className={`px-6 py-3 text-sm font-medium transition-colors ${activeTab === "cutout"
                 ? "border-b-2 border-blue-600 text-blue-600 bg-white"
                 : "text-gray-600 hover:text-gray-800"
               }`}
           >
-            Assign Order
+            Cutout
           </button>
           <button
             onClick={() => setActiveTab("accounts")}
@@ -684,7 +684,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
             ? renderDetailsTab()
             : activeTab === "files"
               ? renderFilesTab()
-              : activeTab === "assign"
+              : activeTab === "cutout"
                 ? renderAssignTab()
                 : activeTab === "accounts"
                   ? renderAccountsTab()

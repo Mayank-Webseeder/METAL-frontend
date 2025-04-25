@@ -165,10 +165,10 @@ const LoginForm = () => {
           navigate("/graphics-order");
           break;
         case "Cutout":
-          navigate("/display-order");
+          navigate("/cutout-order");
           break;
         case "Display":
-          navigate("/view-order");
+          navigate("/display-order");
           break;
         case "Accounts":
           navigate("/accounts-order");

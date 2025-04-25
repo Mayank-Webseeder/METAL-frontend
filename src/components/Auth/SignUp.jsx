@@ -177,7 +177,7 @@ const SignupForm = () => {
               <option value="Graphics">Graphics</option>
               <option value="Accounts">Accounts</option>
               <option value="Display">Display</option>
-              <option value="Viewer">Viewer</option>
+              <option value="Cutout">Cutout</option>
             </select>
           </div>
 

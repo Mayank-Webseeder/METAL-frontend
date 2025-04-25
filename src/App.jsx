@@ -9,8 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
 import Leads from './pages/Leads';
 import Customers from './pages/Customers';
-import Gallery from './pages/Gallery';
-import WorkQueue from './pages/WorkQueue';
+import Gallery from './pages/Gallery'
 import UserManagement from './pages/UserManagement';
 import Financial from './pages/Financial';
 import Sidebar from './components/New folder/Sidebar';
@@ -18,9 +17,9 @@ import Settings from './pages/Settings';
 import Header from './components/New folder/Header';
 import { SocketProvider } from "./socket";
 import GraphicsOrder from './pages/GraphicsOrder';
-import DisplayOrder from './pages/DisplayOrder';
+import CutoutOrder from './pages/CutoutOrder';
 import AccountOrder from './pages/AccountsOrder';
-import ViewOrder from './pages/ViewOrders';
+import DisplayOrder from './pages/DisplayOrders';
 
 
 function App() {
@@ -104,14 +103,13 @@ function App() {
                         <Route path="/leads" element={<Leads/>} />
                         <Route path="/customers" element={<Customers />} />
                         <Route path="/gallery" element={<Gallery />} />
-                        <Route path="/work-queue" element={<WorkQueue />} />
                         <Route path="/user-management" element={<UserManagement />} />
                         <Route path="/financial" element={<Financial />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/graphics-order" element={<GraphicsOrder />} />
-                        <Route path="/display-order" element={<DisplayOrder />} />
+                        <Route path="/cutout-order" element={<CutoutOrder />} />
                         <Route path="/accounts-order" element={<AccountOrder />} />
-                        <Route path="/view-order" element={<ViewOrder />} />
+                        <Route path="/display-order" element={<DisplayOrder />} />
                       </Routes>
                     </main>
                   </div>

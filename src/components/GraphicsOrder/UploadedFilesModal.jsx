@@ -26,7 +26,7 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${baseUrl}/api/v1/admin/display/getCadFilesAndPhoto`, {
+      const response = await fetch(`${baseUrl}/api/v1/admin/cutout/getCadFilesAndPhoto`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

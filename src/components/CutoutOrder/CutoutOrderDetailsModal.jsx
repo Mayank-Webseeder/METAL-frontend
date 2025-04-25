@@ -82,7 +82,7 @@ const FileDownloadManager = ({ order, baseUrl }) => {
   return { downloadFile, downloadingFile };
 };
 
-// CadFilesSection component to display and handle CAD files
+// CadFilesSection component to show and handle CAD files
 const CadFilesSection = ({ fileData, order, downloadFile, downloadingFile, baseUrl }) => {
   // Check if cadFiles exists and has items
   console.log("order datat:", order);
@@ -151,7 +151,7 @@ const CadFilesSection = ({ fileData, order, downloadFile, downloadingFile, baseU
   );
 };
 
-// ImagesSection component to display and handle image files
+// ImagesSection component to  and handle image files
 const ImagesSection = ({ fileData, order, downloadFile, downloadingFile, baseUrl, onImageClick }) => {
   // Check if images exists and has items
   if (!fileData?.images || fileData.images.length === 0) return null;
@@ -224,7 +224,7 @@ const ImagesSection = ({ fileData, order, downloadFile, downloadingFile, baseUrl
   );
 };
 
-const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) => {
+const CutoutOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) => {
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -238,7 +238,7 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
   // Use the FileDownloadManager to get download functionality
   const { downloadFile, downloadingFile } = FileDownloadManager({ order, baseUrl });
 
-  // Status options based on the allowed statuses for display users
+  // Status options based on the allowed statuses for show users
   const statusOptions = ["Pending", "InProgress", "Reviewed", "Completed"];
   
   useEffect(() => {
@@ -579,4 +579,4 @@ const DisplayOrderDetailsModal = ({ order, onClose, onStatusUpdate, baseUrl }) =
   );
 };
 
-export default DisplayOrderDetailsModal;
+export default CutoutOrderDetailsModal;

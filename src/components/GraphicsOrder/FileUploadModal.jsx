@@ -36,8 +36,8 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
     }));
   };
 
-  // Function to display file name with extension
-  const getDisplayFileName = (fileName) => {
+  // Function to cutout file name with extension
+  const  getCutoutFileName = (fileName) => {
     if (fileName.length <= 20) return fileName;
     const extension = fileName.split('.').pop();
     return `${fileName.substr(0, 15)}...${extension}`;
@@ -118,7 +118,7 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
                   <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
                     <div className="flex items-center">
                       <File className="h-4 w-4 text-gray-500 mr-2" />
-                      <span className="text-sm">{getDisplayFileName(file.name)}</span>
+                      <span className="text-sm">{ getCutoutFileName(file.name)}</span>
                     </div>
                     <button 
                       onClick={() => handleRemoveFile('cadFiles', index)}
@@ -151,7 +151,7 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
                   <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
                     <div className="flex items-center">
                       <File className="h-4 w-4 text-gray-500 mr-2" />
-                      <span className="text-sm">{getDisplayFileName(file.name)}</span>
+                      <span className="text-sm">{ getCutoutFileName(file.name)}</span>
                     </div>
                     <button 
                       onClick={() => handleRemoveFile('images', index)}

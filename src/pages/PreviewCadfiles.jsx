@@ -7,8 +7,8 @@ const FilePreviewComponent = ({
   onPreview, 
   baseUrl 
 }) => {
-  // Function to display file name with extension
-  const getDisplayFileName = (fileName) => {
+  // Function to show file name with extension
+  const  getCutoutFileName = (fileName) => {
     if (fileName.length <= 20) return fileName;
     const extension = fileName.split('.').pop();
     return `${fileName.substr(0, 15)}...${extension}`;
@@ -44,7 +44,7 @@ const FilePreviewComponent = ({
                 <div className="flex items-center overflow-hidden">
                   {getFileIcon(file)}
                   <span className="text-sm ml-2 truncate">
-                    {isFileObject ? getDisplayFileName(file.name) : getDisplayFileName(file)}
+                    {isFileObject ?  getCutoutFileName(file.name) :  getCutoutFileName(file)}
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
