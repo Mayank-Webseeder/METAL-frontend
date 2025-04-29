@@ -74,24 +74,68 @@ const Orders = () => {
     );
   };
 
+  // const getStatusColor = (status) => {
+  //   switch (status) {
+  //     case "New":
+  //       return "bg-gray-100 text-gray-800";
+  //     case "InProgress":
+  //       return "bg-blue-100 text-blue-800";
+  //     case "PendingApproval":
+  //       return "bg-orange-100 text-orange-800";
+  //     case "Approved":
+  //       return "bg-green-100 text-green-800";
+  //     case "Completed":
+  //       return "bg-green-100 text-green-800";
+  //     case "Billed":
+  //       return "bg-indigo-100 text-indigo-800";
+  //     case "Paid":
+  //       return "bg-emerald-100 text-emerald-800";
+  //     default:
+  //       return "bg-yellow-100 text-yellow-800";
+  //   }
+  // };
+
   const getStatusColor = (status) => {
     switch (status) {
-      case "New":
-        return "bg-gray-100 text-gray-800";
-      case "InProgress":
-        return "bg-blue-100 text-blue-800";
-      case "PendingApproval":
-        return "bg-orange-100 text-orange-800";
-      case "Approved":
-        return "bg-green-100 text-green-800";
-      case "Completed":
-        return "bg-green-100 text-green-800";
-      case "Billed":
-        return "bg-indigo-100 text-indigo-800";
-      case "Paid":
-        return "bg-emerald-100 text-emerald-800";
-      default:
+      // Graphics stages
+      case "graphics_pending":
         return "bg-yellow-100 text-yellow-800";
+      case "graphics_in_progress":
+        return "bg-blue-100 text-blue-800";
+      case "graphics_completed":
+        return "bg-green-100 text-green-800";
+      
+      // Admin stages
+      case "admin_review":
+        return "bg-orange-100 text-orange-800";
+      case "admin_approved":
+        return "bg-green-100 text-green-800";
+      case "admin_rejected":
+        return "bg-red-100 text-red-800";
+      
+      // Cutout stages
+      case "cutout_pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "cutout_in_progress":
+        return "bg-blue-100 text-blue-800";
+      case "cutout_completed":
+        return "bg-green-100 text-green-800";
+      
+      // Accounts stages
+      case "accounts_pending":
+        return "bg-purple-100 text-purple-800";
+      case "accounts_billed":
+        return "bg-indigo-100 text-indigo-800";
+      case "accounts_paid":
+        return "bg-emerald-100 text-emerald-800";
+      
+      // Order completed
+      case "order_completed":
+        return "bg-teal-100 text-teal-800";
+      
+      // Default case
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 

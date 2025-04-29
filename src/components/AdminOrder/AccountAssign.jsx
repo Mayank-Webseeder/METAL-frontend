@@ -72,7 +72,7 @@ const AccountAssign = ({ order: initialOrder, BASE_URL }) => {
         `${BASE_URL}/api/v1/admin/accounts/assignOrderToAccount/${order._id}`,
         { accountUserId: selectedAccountUser },
         {
-          headers: { 
+          headers: {
             Authorization: `${token}`,
             'Content-Type': 'application/json'
           },
@@ -96,7 +96,9 @@ const AccountAssign = ({ order: initialOrder, BASE_URL }) => {
     }
   };
 
-  const canAssignToAccounting = ["Completed", "Billed", "ReadyForBilling"].includes(order.status);
+  const canAssignToAccounting = [ "cutout_completed",
+    "accounts_billed",
+    "accounts_paid"].includes(order.status);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

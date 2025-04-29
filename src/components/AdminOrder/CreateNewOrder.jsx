@@ -20,7 +20,7 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
         customerId: "",
         requirements: "",
         dimensions: "",
-        status: "New",
+        status: "graphics_pending",
         assignedTo: "",
         files: [],
         imagePreview: []

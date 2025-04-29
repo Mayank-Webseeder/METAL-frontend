@@ -42,15 +42,15 @@ const EditOrder = ({ onClose, editOrder }) => {
       const data = await response.json();
 
       setOrder(data.order);
-      
+
       // Handle image paths by ensuring they have the BASE_URL prefix
       const imagePaths = data.order.image || [];
-      const fullImagePaths = imagePaths.map(path => 
+      const fullImagePaths = imagePaths.map(path =>
         path.startsWith('http') ? path : `${BASE_URL}${path}`
       );
-      
+
       setCurrentImages(fullImagePaths);
-      
+
       setFormData({
         customerName: data.order.customer.name,
         requirements: data.order.requirements,
@@ -97,19 +97,19 @@ const EditOrder = ({ onClose, editOrder }) => {
     setSubmitting(true);
     try {
       const token = localStorage.getItem("token");
-      
+
       const submitData = new FormData();
       submitData.append("requirements", formData.requirements);
       submitData.append("dimensions", formData.dimensions);
       submitData.append("assignedTo", formData.assignedToId || "undefined");
       submitData.append("status", formData.status);
-      
+
       if (files.length > 0) {
         files.forEach((file) => {
           submitData.append("images", file);
         });
       }
-      
+
       const response = await fetch(`${BASE_URL}/api/v1/admin/updateOrder/${editOrder}`, {
         method: "PUT",
         headers: {
@@ -119,7 +119,7 @@ const EditOrder = ({ onClose, editOrder }) => {
       });
 
       if (!response.ok) throw new Error("Failed to update order");
-      
+
       const result = await response.json();
       console.log("Order Updated:", result);
       toast.success("Order updated successfully!");
@@ -145,11 +145,11 @@ const EditOrder = ({ onClose, editOrder }) => {
 
   const navigateImage = (direction) => {
     if (direction === "next") {
-      setSelectedImageIndex((prev) => 
+      setSelectedImageIndex((prev) =>
         prev === currentImages.length - 1 ? 0 : prev + 1
       );
     } else {
-      setSelectedImageIndex((prev) => 
+      setSelectedImageIndex((prev) =>
         prev === 0 ? currentImages.length - 1 : prev - 1
       );
     }
@@ -163,7 +163,7 @@ const EditOrder = ({ onClose, editOrder }) => {
       </div>
     </div>
   );
-  
+
   if (!order) return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6">
@@ -184,7 +184,7 @@ const EditOrder = ({ onClose, editOrder }) => {
             >
               <X className="h-6 w-6 text-gray-800" />
             </button>
-            
+
             {currentImages.length > 1 && (
               <>
                 <button
@@ -201,22 +201,21 @@ const EditOrder = ({ onClose, editOrder }) => {
                 </button>
               </>
             )}
-            
+
             <img
               src={currentImages[selectedImageIndex]}
               alt="Preview"
               className="max-h-[80vh] max-w-full object-contain mx-auto"
             />
-            
+
             {currentImages.length > 1 && (
               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
                 {currentImages.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`h-2 w-2 rounded-full ${
-                      index === selectedImageIndex ? "bg-white" : "bg-gray-400"
-                    }`}
+                    className={`h-2 w-2 rounded-full ${index === selectedImageIndex ? "bg-white" : "bg-gray-400"
+                      }`}
                   />
                 ))}
               </div>
@@ -231,15 +230,15 @@ const EditOrder = ({ onClose, editOrder }) => {
             <FileEdit className="mr-2 h-5 w-5 md:h-6 md:w-6" />
             Edit Order
           </h2>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-gray-600 hover:text-red-600 transition-colors"
             aria-label="Close modal"
           >
             <X className="h-5 w-5 md:h-6 md:w-6" />
           </button>
         </div>
-        
+
         <div className="overflow-y-auto p-4 flex-grow">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -253,7 +252,7 @@ const EditOrder = ({ onClose, editOrder }) => {
               />
               <p className="text-xs text-gray-500 mt-1">Customer cannot be changed</p>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Requirements</label>
               <textarea
@@ -265,7 +264,7 @@ const EditOrder = ({ onClose, editOrder }) => {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Dimensions</label>
               <input
@@ -278,8 +277,8 @@ const EditOrder = ({ onClose, editOrder }) => {
                 required
               />
             </div>
-            
-            <div>
+
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
               <select
                 name="status"
@@ -295,6 +294,39 @@ const EditOrder = ({ onClose, editOrder }) => {
                 <option value="Completed">Completed</option>
                 <option value="Billed">Billed</option>
                 <option value="Paid">Paid</option>
+              </select>
+            </div> */}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                {/* Graphics stages */}
+                <option value="graphics_pending">Graphics Pending</option>
+                <option value="graphics_in_progress">Graphics In Progress</option>
+                <option value="graphics_completed">Graphics Completed</option>
+
+                {/* Admin stages */}
+                <option value="admin_review">Admin Review</option>
+                <option value="admin_approved">Admin Approved</option>
+                <option value="admin_rejected">Admin Rejected</option>
+
+                {/* Cutout stages */}
+                <option value="cutout_pending">Cutout Pending</option>
+                <option value="cutout_in_progress">Cutout In Progress</option>
+                <option value="cutout_completed">Cutout Completed</option>
+
+                {/* Accounts stages */}
+                <option value="accounts_pending">Accounts Pending</option>
+                <option value="accounts_billed">Accounts Billed</option>
+                <option value="accounts_paid">Accounts Paid</option>
+
+                {/* Order completed */}
+                <option value="order_completed">Order Completed</option>
               </select>
             </div>
 
@@ -322,7 +354,7 @@ const EditOrder = ({ onClose, editOrder }) => {
                 </ul>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Current Images</label>
               {currentImages.length > 0 ? (
@@ -345,7 +377,7 @@ const EditOrder = ({ onClose, editOrder }) => {
                 <p className="text-sm text-gray-500">No images available</p>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Upload New Images</label>
               <div className="border-2 border-dashed border-gray-300 rounded-md p-3 text-center cursor-pointer hover:border-indigo-500 transition-colors">
@@ -364,7 +396,7 @@ const EditOrder = ({ onClose, editOrder }) => {
                 </label>
               </div>
             </div>
-            
+
             {imagePreview.length > 0 && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">New Images Preview</label>
@@ -382,7 +414,7 @@ const EditOrder = ({ onClose, editOrder }) => {
             )}
           </form>
         </div>
-        
+
         <div className="border-t p-4 flex justify-end space-x-3 mt-auto">
           <button
             type="button"
@@ -396,9 +428,9 @@ const EditOrder = ({ onClose, editOrder }) => {
             disabled={submitting}
             className="relative flex items-center justify-center px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            
-              Update Order
-     
+
+            Update Order
+
           </button>
         </div>
       </div>

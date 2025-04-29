@@ -29,14 +29,13 @@ const CutoutOrders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   // Status options based on the allowed statuses for Cutout users
-  const statusOptions = ["Pending", "InProgress", "Completed"];
+  const statusOptions = ["cutout_pending", "cutout_in_progress", "cutout_completed"];
 
   // Status color mapping
   const statusColors = {
-    "Pending": "bg-gray-100 text-gray-800",
-    "InProgress": "bg-blue-100 text-blue-800",
-    "Completed": "bg-green-100 text-green-800",
-    "Failed": "bg-red-100 text-red-800"
+    "cutout_pending": "bg-gray-100 text-gray-800",
+    "cutout_in_progress": "bg-blue-100 text-blue-800",
+    "cutout_completed": "bg-green-100 text-green-800",
   };
 
   const setStatusHandler = (data) => {

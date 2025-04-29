@@ -40,16 +40,13 @@ const GraphicsOrders = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   
   // Status options based on the allowed statuses from the backend
-  const statusOptions = ["Pending", "InProgress", "Completed", "Failed", "Paused"];
+  const statusOptions = ["graphics_pending", "graphics_in_progress", "graphics_completed"];
   
   // Status color mapping
   const statusColors = {
-    "Completed": "bg-green-100 text-green-800",
-    "InProgress": "bg-blue-100 text-blue-800",
-    "InWorkQueue": "bg-yellow-100 text-yellow-800",
-    "Failed": "bg-red-100 text-red-800",
-    "Paused": "bg-orange-100 text-orange-800",
-    "Pending": "bg-gray-100 text-gray-800"
+    "graphics_completed": "bg-green-100 text-green-800",
+    "graphics_in_progress": "bg-blue-100 text-blue-800",   
+    "graphics_pending": "bg-gray-100 text-gray-800"
   };
   
   const setStatusHandler = (data) => {
