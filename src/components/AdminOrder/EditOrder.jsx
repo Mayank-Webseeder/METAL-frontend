@@ -312,11 +312,11 @@ const EditOrder = ({ onClose, editOrder }) => {
 
                 {/* Admin stages */}
                 <option value="admin_review">Admin Review</option>
-                <option value="admin_approved">Admin Approved</option>
                 <option value="admin_rejected">Admin Rejected</option>
+                <option value="cutout_pending">Admin Approved</option>
 
                 {/* Cutout stages */}
-                <option value="cutout_pending">Cutout Pending</option>
+                {/* <option value="cutout_pending">Cutout Pending</option> */}
                 <option value="cutout_in_progress">Cutout In Progress</option>
                 <option value="cutout_completed">Cutout Completed</option>
 

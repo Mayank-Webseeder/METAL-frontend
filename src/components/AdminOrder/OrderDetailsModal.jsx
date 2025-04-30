@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, Download, Loader, FileText, Camera, Package, User, Calendar, List, CheckCircle, UserPlus } from "lucide-react";
+import { X, Download, Loader, FileText, Camera, Package, User, Calendar, List, CheckCircle, UserPlus ,  ThumbsUp, ThumbsDown } from "lucide-react";
 import axios from "axios"; // Make sure axios is imported
 import AccountAssign from "./AccountAssign";
 import Logs from "./Logs";
@@ -18,6 +18,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
   const [assignLoading, setAssignLoading] = useState(false);
   const [assignSuccess, setAssignSuccess] = useState(false);
   const [assignError, setAssignError] = useState(null);
+  const [statusUpdateLoading, setStatusUpdateLoading] = useState(false);
 
   useEffect(() => {
     if (order) {
@@ -133,6 +134,44 @@ const OrderDetailsModal = ({ order, onClose }) => {
         return "bg-yellow-100 text-yellow-800";
     }
   };
+  const handleStatusUpdate = async (newStatus) => {
+    try {
+      setStatusUpdateLoading(true);
+      const token = localStorage.getItem("token");
+
+      const submitData = new FormData();
+      submitData.append("status", newStatus);
+      
+      // Keep other fields the same
+      submitData.append("requirements", order.requirements || "");
+      submitData.append("dimensions", order.dimensions || "");
+      submitData.append("assignedTo", order.assignedTo?._id || "undefined");
+
+      const response = await fetch(`${BASE_URL}/api/v1/admin/updateOrder/${order._id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `${token}`,
+        },
+        body: submitData,
+      });
+
+      if (!response.ok) throw new Error("Failed to update order status");
+
+      const result = await response.json();
+      console.log("Order Status Updated:", result);
+      toast.success(`Order status updated to ${newStatus.replace('_', ' ').toUpperCase()}`);
+      
+      // Refresh the page to show the updated order status
+      window.location.reload();
+      
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error("Failed to update status: " + error.message);
+    } finally {
+      setStatusUpdateLoading(false);
+    }
+  };
+
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -270,7 +309,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
           </div>
         </div>
 
-        <div className="p-5">
+        {/* <div className="p-5">
           <div className="flex items-center space-x-3 mb-3">
             <div className="bg-green-50 p-2 rounded-lg">
               <List className="h-5 w-5 text-green-600" />
@@ -280,7 +319,52 @@ const OrderDetailsModal = ({ order, onClose }) => {
           <div className="bg-gray-50 p-4 rounded-lg text-gray-700 text-sm leading-relaxed">
             {order.requirements || "No specific requirements provided"}
           </div>
+        </div> */}
+   <div className="p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-3">
+              <div className="bg-green-50 p-2 rounded-lg">
+                <List className="h-5 w-5 text-green-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Requirements</h3>
+            </div>
+            
+            {/* Admin Approval/Rejection Buttons - Only shown when status is graphics_complete */}
+            {order.status === "graphics_completed" && (
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleStatusUpdate("cutout_pending")}
+                  disabled={statusUpdateLoading}
+                  className="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-xs font-medium rounded-lg hover:bg-green-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {statusUpdateLoading && order.status !== "cutout_pending" ? (
+                    <Loader className="h-3 w-3 mr-1.5 animate-spin" />
+                  ) : (
+                    <ThumbsUp className="h-3 w-3 mr-1.5" />
+                  )}
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleStatusUpdate("admin_rejected")}
+                  disabled={statusUpdateLoading}
+                  className="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 text-xs font-medium rounded-lg hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {statusUpdateLoading && order.status !== "admin_rejected" ? (
+                    <Loader className="h-3 w-3 mr-1.5 animate-spin" />
+                  ) : (
+                    <ThumbsDown className="h-3 w-3 mr-1.5" />
+                  )}
+                  Reject
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="bg-gray-50 p-4 rounded-lg text-gray-700 text-sm leading-relaxed">
+            {order.requirements || "No specific requirements provided"}
+          </div>
         </div>
+
+
       </div>
 
       {order.image && order.image.length > 0 && (

@@ -116,24 +116,24 @@ const Logs = ({ order, BASE_URL }) => {
         <div className="p-5">
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute top-0 left-6 bottom-0 w-0.5 bg-gray-200"></div>
+            <div className="absolute top-0 left-5 bottom-0 w-0.5 bg-gray-200"></div>
 
             {/* Timeline Items */}
             <div className="space-y-6">
               {logs.map((log) => (
-                <div key={log._id} className="relative pl-14">
+                <div key={log._id} className="relative pl-14 ">
                   {/* Timeline Icon */}
                   <div className="absolute left-0 p-2 rounded-full bg-white border-2 border-gray-200">
                     {getLogIcon(log)}
                   </div>
 
                   {/* Log Content */}
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 rounded-lg p-4 ">
                     <div className="flex justify-between items-start mb-2">
                       <div className="font-medium text-gray-800">
                         {log.changes || "Image Update"}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 whitespace-nowrap">
                         {formatDate(log.createdAt)}
                       </div>
                     </div>

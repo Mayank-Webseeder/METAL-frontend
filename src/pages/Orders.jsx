@@ -437,31 +437,31 @@ const Orders = () => {
               <table className="w-full">
                 <thead className="bg-gray-100 border-b text-nowrap">
                   <tr>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Order ID
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       At
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Assigned
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Created At
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Requirements
                     </th>
-                    <th className="px-8 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Images
                     </th>
-                    <th className="px-8 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -474,9 +474,9 @@ const Orders = () => {
                         className="hover:bg-gray-50 transition-colors cursor-pointer"
                         onClick={() => handleRowClick(order)}
                       >
-                        <td className="px-8 py-5">{order.orderId}</td>
-                        <td className="px-8 py-5">{order.customer.name}</td>
-                        <td className="px-8 py-5">
+                        <td className="px-4 py-5">{order.orderId}</td>
+                        <td className="px-4 py-5">{order.customer.name}</td>
+                        <td className="px-4 py-5">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
                               order.status
@@ -485,26 +485,26 @@ const Orders = () => {
                             {order.status}
                           </span>
                         </td>
-                        <td className="px-8 py-5">
+                        <td className="px-4 py-5">
                           {order.assignedTo
                             ? order.assignedTo.accountType
                             : "Not Assigned"
                           }
                         </td>
-                        <td className="px-8 py-5">
+                        <td className="px-4 py-5">
                           {order.assignedTo
                             ? `${order.assignedTo.firstName} ${order.assignedTo.lastName}`
                             : "Not Assigned"}
                         </td>
 
-                        <td className="px-8 py-5">{order.created}</td>
-                        <td className="px-8 py-5">
+                        <td className="px-4 py-5">{order.created}</td>
+                        <td className="px-4 py-5">
                           {order.requirements && order.requirements.length > 50
                             ? `${order.requirements.substring(0, 50)}...`
                             : order.requirements}
                         </td>
 
-                        <td className="px-8 py-5" onClick={handleActionClick}>
+                        <td className="px-4 py-5" onClick={handleActionClick}>
                           <button
                             className="text-blue-600 hover:text-blue-900 flex items-center justify-center h-5 w-5"
                             onClick={(e) => {

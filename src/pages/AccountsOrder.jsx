@@ -964,7 +964,7 @@ const AccountOrders = () => {
               <p className="text-gray-600">No orders currently assigned to accounts</p>
             </div>
           ) : (
-            <div>
+            <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-100 border-b">
                   <tr>
