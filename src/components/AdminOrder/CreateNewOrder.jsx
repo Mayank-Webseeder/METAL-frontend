@@ -104,7 +104,7 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
     const handleSelectCustomer = (customer) => {
         setOrder(prev => ({
             ...prev,
-            customer: customer.name,
+            customer: customer.name ,
             customerId: customer._id
         }));
         clearFilteredCustomers();
@@ -159,7 +159,7 @@ const CreateNewOrder = ({ onClose, addOrder }) => {
                                             className="p-2 cursor-pointer hover:bg-indigo-50 transition-colors text-sm"
                                             onClick={() => handleSelectCustomer(user)}
                                         >
-                                            {user.name}
+                                            {user.name} ({user.email})
                                         </li>
                                     ))}
                                 </ul>

@@ -6,6 +6,7 @@ import {
   UserCheck, CheckCircle2, AlertCircle
 } from "lucide-react";
 import Loader from './Loader';
+import toast from "react-hot-toast";
 
 const LeadManagement = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -295,9 +296,6 @@ const LeadManagement = () => {
                 <option value="">All Status</option>
                 <option value="New">New</option>
                 <option value="Contacted">Contacted</option>
-                <option value="Qualified">Qualified</option>
-                <option value="Proposal">Proposal</option>
-                <option value="Negotiation">Negotiation</option>
                 <option value="Converted">Converted</option>
                 <option value="Lost">Lost</option>
               </select>
@@ -575,9 +573,6 @@ const LeadManagement = () => {
                     >
                       <option value="New">New</option>
                       <option value="Contacted">Contacted</option>
-                      <option value="Qualified">Qualified</option>
-                      <option value="Proposal">Proposal</option>
-                      <option value="Negotiation">Negotiation</option>
                       <option value="Converted">Converted</option>
                       <option value="Lost">Lost</option>
                     </select>

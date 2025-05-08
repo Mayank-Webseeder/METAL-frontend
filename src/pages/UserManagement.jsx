@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Loader from './Loader';
 import UserModal from '../components/AdminOrder/UserModal';
+import ConfirmationModal from '../components/AdminOrder/ConfirmModal';
 
 const UserManagement = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -20,6 +21,12 @@ const UserManagement = () => {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const token = localStorage.getItem("token");
+
+  // Confirmation Modal State
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+  const [confirmData, setConfirmData] = useState({ title: "", message: "", buttonClass: "", buttonText: "" });
+
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,16 +95,61 @@ const UserManagement = () => {
     setShowModal(true);
   };
 
+  // const handleToggleUserStatus = async (user) => {
+  //   if (!token) return;
+
+  //   try {
+  //     const newStatus = !user.isActive;
+  //     const confirmMessage = newStatus
+  //       ? `Are you sure you want to activate ${user.firstName} ${user.lastName}'s account?`
+  //       : `Are you sure you want to deactivate ${user.firstName} ${user.lastName}'s account?`;
+
+  //     if (window.confirm(confirmMessage)) {
+  //       const response = await axios.put(`${BASE_URL}/api/v1/auth/updateUser/${user._id}`, {
+  //         firstName: user.firstName,
+  //         lastName: user.lastName,
+  //         accountType: user.accountType,
+  //         isActive: newStatus
+  //       }, {
+  //         headers: { Authorization: `${token}` },
+  //         withCredentials: true,
+  //       });
+
+  //       if (response.data.success) {
+  //         // Update user in state
+  //         setUsers(users.map(u => {
+  //           if (u._id === user._id) {
+  //             return { ...u, isActive: newStatus };
+  //           }
+  //           return u;
+  //         }));
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error toggling user status:", error);
+  //   }
+  // };
+
+
+  
   const handleToggleUserStatus = async (user) => {
-    if (!token) return;
-
-    try {
-      const newStatus = !user.isActive;
-      const confirmMessage = newStatus
-        ? `Are you sure you want to activate ${user.firstName} ${user.lastName}'s account?`
-        : `Are you sure you want to deactivate ${user.firstName} ${user.lastName}'s account?`;
-
-      if (window.confirm(confirmMessage)) {
+    const newStatus = !user.isActive;
+    
+    // Set up confirmation modal data
+    setConfirmData({
+      title: newStatus ? "Activate User Account" : "Deactivate User Account",
+      message: newStatus 
+        ? `Are you sure you want to activate ${user.firstName} ${user.lastName}'s account?` 
+        : `Are you sure you want to deactivate ${user.firstName} ${user.lastName}'s account?`,
+      buttonClass: newStatus ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700",
+      buttonText: newStatus ? "Activate" : "Deactivate"
+    });
+    
+    // Store the action for when user confirms
+    setConfirmAction(() => async () => {
+      if (!token) return;
+      
+      try {
         const response = await axios.put(`${BASE_URL}/api/v1/auth/updateUser/${user._id}`, {
           firstName: user.firstName,
           lastName: user.lastName,
@@ -117,10 +169,13 @@ const UserManagement = () => {
             return u;
           }));
         }
+      } catch (error) {
+        console.error("Error toggling user status:", error);
       }
-    } catch (error) {
-      console.error("Error toggling user status:", error);
-    }
+    });
+    
+    // Show the confirmation modal
+    setShowConfirmModal(true);
   };
 
   const handleDeleteUser = async (userId) => {
@@ -497,9 +552,23 @@ const UserManagement = () => {
             baseUrl={BASE_URL}
           />
         )}
+
+
+        {/* Confirmation Modal for Status Toggle and Delete */}
+        <ConfirmationModal
+          isOpen={showConfirmModal}
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={confirmAction}
+          title={confirmData.title}
+          message={confirmData.message}
+          confirmButtonClass={confirmData.buttonClass}
+          confirmText={confirmData.buttonText}
+        />
       </div>
     </div>
   );
 };
 
 export default UserManagement;
+
+

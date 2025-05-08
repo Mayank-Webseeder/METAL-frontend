@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { X, Download, File, Image, Trash2, AlertTriangle } from "lucide-react";
+import { X, Download, File, Image, Trash2, AlertTriangle, FileText } from "lucide-react";
 
 const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
   const [activeTab, setActiveTab] = useState('images');
-  const [fileData, setFileData] = useState({ photo: [], CadFile: [] });
+  const [fileData, setFileData] = useState({ photo: [], CadFile: [], textFiles: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -37,7 +37,7 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
 
       if (!response.ok) {
         // Don't throw an error, just handle as empty data
-        setFileData({ photo: [], CadFile: [] });
+        setFileData({ photo: [], CadFile: [], textFiles: [] });
         return;
       }
 
@@ -46,19 +46,21 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
       if (result.success && Array.isArray(result.data)) {
         const combinedPhotos = result.data.flatMap(item => item.photo || []);
         const combinedCadFiles = result.data.flatMap(item => item.CadFile || []);
+        const combinedTextFiles = result.data.flatMap(item => item.textFiles || []);
         setFileData({
           photo: combinedPhotos,
-          CadFile: combinedCadFiles
+          CadFile: combinedCadFiles,
+          textFiles: combinedTextFiles || []
         });
       } else {
         // Don't throw an error, just handle as empty data
-        setFileData({ photo: [], CadFile: [] });
+        setFileData({ photo: [], CadFile: [], textFiles: [] });
       }
 
     } catch (err) {
       console.error("Error fetching files:", err);
       // Don't set error state, just handle as empty data
-      setFileData({ photo: [], CadFile: [] });
+      setFileData({ photo: [], CadFile: [], textFiles: [] });
     } finally {
       setLoading(false);
     }
@@ -149,6 +151,14 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
           >
             CAD Files ({fileData.CadFile.length})
           </button>
+          <button
+            className={`px-4 py-2 text-sm font-medium ${activeTab === 'text'
+              ? 'border-b-2 border-indigo-600 text-indigo-600'
+              : 'text-gray-500 hover:text-gray-700'}`}
+            onClick={() => setActiveTab('text')}
+          >
+            Text Files ({fileData.textFiles ? fileData.textFiles.length : 0})
+          </button>
         </div>
 
         {confirmDelete.show && (
@@ -199,7 +209,7 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
         ) : filesFetchError ? (
           <div className="flex flex-col items-center justify-center h-64 text-gray-500">
             <File className="h-12 w-12 mb-3 text-gray-400" />
-            <p className="text-lg font-medium">No CAD files or images available</p>
+            <p className="text-lg font-medium">No files available</p>
             <p className="text-sm text-gray-400 mt-1">Upload files using the Upload button</p>
           </div>
         ) : (
@@ -247,7 +257,7 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
                   No images available
                 </div>
               )
-            ) : (
+            ) : activeTab === 'cad' ? (
               fileData.CadFile.length > 0 ? (
                 <div className="space-y-2">
                   {fileData.CadFile.map((file, index) => (
@@ -286,9 +296,50 @@ const UploadedFilesModal = ({ order, onClose, baseUrl, filesFetchError }) => {
                   No CAD files available
                 </div>
               )
+            ) : (
+              // Text Files Tab
+              fileData.textFiles && fileData.textFiles.length > 0 ? (
+                <div className="space-y-2">
+                  {fileData.textFiles.map((file, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center">
+                        <FileText className="h-5 w-5 text-gray-500 mr-2" />
+                        <span className="text-sm">{getFileName(file)}</span>
+                      </div>
+                      <div className="flex space-x-2">
+                        <a
+                          href={`${baseUrl}${file}`}
+                          download
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center text-sm text-indigo-600 hover:text-indigo-800"
+                        >
+                          <Download className="h-4 w-4 mr-1" />
+                          Download
+                        </a>
+                        <button
+                          onClick={() => handleDeleteFile('textFiles', index)}
+                          className="flex items-center text-sm text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-32 text-gray-500">
+                  <FileText className="h-5 w-5 mr-2" />
+                  No text files available
+                </div>
+              )
             )}
           </div>
         )}
+        
+ 
+        
       </div>
     </div>
   );

@@ -31,27 +31,18 @@ const Sidebar = ({ isOpen, toggleSidebar, setActiveMenuItem }) => {
       { name: 'Orders', icon: FileText, path: '/orders' },
       { name: 'Customers', icon: Contact2, path: '/customers' },
       { name: 'Lead', icon: ListTodo, path: '/leads' },
-      // { name: 'Gallery', icon: Image, path: '/gallery' },
-      // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' },
-      // { name: 'Financial', icon: DollarSign, path: '/financial' }
     ],
     Admin: [
       { name: 'Dashboard', icon: LayoutDashboard, path: '/' },
       { name: 'Orders', icon: FileText, path: '/orders' },
       { name: 'Customers', icon: Contact2, path: '/customers' },
-      // { name: 'Gallery', icon: Image, path: '/gallery' },
-      // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' },
-      // { name: 'Financial', icon: DollarSign, path: '/financial' }
     ],
     Graphics: [
       { name: 'Orders', icon: FileText, path: '/graphics-order' },
-      // { name: 'Customers', icon: Contact2, path: '/customers' },
-      // { name: 'Gallery', icon: Image, path: '/gallery' },
-      // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
+
     ],
     Cutout: [
       { name: 'Orders', icon: FileText, path: '/cutout-order' },
-      // { name: 'Work Queue', icon: ListTodo, path: '/work-queue' }
     ],
     Accounts: [
       { name: 'Accounts', icon: DollarSign, path: '/accounts-order' }

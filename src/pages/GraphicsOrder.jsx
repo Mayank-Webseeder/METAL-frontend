@@ -13,8 +13,9 @@ import ImagePreviewModal from '../components/AdminOrder/ImagePreviewModal';
 import FileUploadModal from '../components/GraphicsOrder/FileUploadModal';
 import UploadedFilesModal from '../components/GraphicsOrder/UploadedFilesModal';
 import RenderPagination from '../components/RenderPagination'; // Import the pagination component
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+import toast from "react-hot-toast";
 import io from 'socket.io-client';
 import { useSocketEvents } from "../../src/hooks/useSocketEvents";
 import { useSocket } from "../socket";
@@ -162,6 +163,7 @@ const GraphicsOrders = () => {
         error: null, 
         success: `Order status updated to ${status}` 
       });
+      toast.success(`Order status updated to ${status}`);
       
       // Clear success message after 3 seconds
       setTimeout(() => {
@@ -221,7 +223,7 @@ const GraphicsOrders = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-6 md:p-8">
-      <ToastContainer position="top-right" autoClose={3000} />
+      {/* <ToastContainer position="top-right" autoClose={2000} /> */}
       
       <div className="container mx-auto">
         {/* <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
@@ -401,7 +403,7 @@ const GraphicsOrders = () => {
                                 </option>
                               ))}
                             </select>
-                            <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-gray-400 pointer-events-none" />
+                            {/* <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-gray-400 pointer-events-none" /> */}
                           </div>
                         </div>
                       </td>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { X } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const UserModal = ({ mode, user, onClose, onSave, baseUrl }) => {
   const isEditMode = mode === "edit";
@@ -112,7 +112,7 @@ const UserModal = ({ mode, user, onClose, onSave, baseUrl }) => {
         onSave(formData, false);
       } else {
         // Create new user
-        await axios.post(`${baseUrl}/api/v1/auth/create-account`, {
+        const response = await axios.post(`${baseUrl}/api/v1/auth/create-account`, {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -123,12 +123,25 @@ const UserModal = ({ mode, user, onClose, onSave, baseUrl }) => {
           headers: { Authorization: `${token}` },
           withCredentials: true,
         });
+        console.log("kamal res", response);
         toast.success("User created successfully");
+        if(response.success === "false"){
+          toast.error(response.message);
+        }
         onSave(formData, true);
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error(isEditMode ? "Error updating user:" : "Error creating user:", error);
-      toast.error("Something went wrong. Please try again.");
+      console.log("kamal error", error.response);
+      if (
+        error.response.data.success == false
+      ) {
+        toast.error("User already exist");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    
       setIsSubmitting(false);
     }
   };

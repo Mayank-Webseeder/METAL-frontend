@@ -18,6 +18,8 @@ const Customers = () => {
     lastName: '',
     email: '',
     phoneNo: '',
+    gstNo: '',
+    panNo: '',
     address: {
       street: '',
       city: '',
@@ -55,7 +57,9 @@ const Customers = () => {
       result = result.filter(customer =>
         `${customer.firstName} ${customer.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
         customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        customer.phoneNo.includes(searchTerm)
+        customer.phoneNo.includes(searchTerm) ||
+        (customer.gstNo && customer.gstNo.includes(searchTerm)) ||
+        (customer.panNo && customer.panNo.includes(searchTerm))
       );
     }
 
@@ -96,6 +100,8 @@ const Customers = () => {
         lastName: '',
         email: '',
         phoneNo: '',
+        gstNo: '',
+        panNo: '',
         address: {
           street: '',
           city: '',
@@ -130,6 +136,8 @@ const Customers = () => {
         lastName: '',
         email: '',
         phoneNo: '',
+        gstNo: '',
+        panNo: '',
         address: {
           street: '',
           city: '',
@@ -169,6 +177,8 @@ const Customers = () => {
       lastName: customer.lastName,
       email: customer.email,
       phoneNo: customer.phoneNo,
+      gstNo: customer.gstNo || '',
+      panNo: customer.panNo || '',
       address: customer.address || {
         street: '',
         city: '',
@@ -215,6 +225,7 @@ const Customers = () => {
                   <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                   <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Contact</th>
                   <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Address</th>
+                  <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Documents</th>
                   <th className="px-4 md:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -260,6 +271,12 @@ const Customers = () => {
                         ) : (
                           'No address'
                         )}
+                      </td>
+                      <td className="px-4 md:px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                        <div className="text-sm text-gray-500">
+                          <div>GST: {customer.gstNo || 'Not provided'}</div>
+                          <div>PAN: {customer.panNo || 'Not provided'}</div>
+                        </div>
                       </td>
                       <td className="px-4 md:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end space-x-3">
@@ -342,6 +359,28 @@ const Customers = () => {
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     required
                   />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">GST Number</label>
+                    <input
+                      type="text"
+                      name="gstNo"
+                      value={formData.gstNo}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">PAN Number</label>
+                    <input
+                      type="text"
+                      name="panNo"
+                      value={formData.panNo}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Street</label>
@@ -459,6 +498,28 @@ const Customers = () => {
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     required
                   />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">GST Number</label>
+                    <input
+                      type="text"
+                      name="gstNo"
+                      value={formData.gstNo}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">PAN Number</label>
+                    <input
+                      type="text"
+                      name="panNo"
+                      value={formData.panNo}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Street</label>

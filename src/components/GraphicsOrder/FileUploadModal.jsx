@@ -1,22 +1,28 @@
 import { useRef, useState } from "react";
-import { Upload, X, File, RefreshCw } from "lucide-react";
-import { toast } from 'react-toastify';
+import { Upload, X, File, RefreshCw, FileText, Image } from "lucide-react";
+// import { toast } from 'react-toastify';
+import toast from "react-hot-toast";
+
 
 const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadFiles, setUploadFiles] = useState({
     cadFiles: [],
-    images: []
+    images: [],
+    textFiles: []
   });
   
   const cadFileInputRef = useRef(null);
   const imageFileInputRef = useRef(null);
+  const textFileInputRef = useRef(null);
   
   const handleFileUploadClick = (fileType) => {
     if (fileType === 'cad') {
       cadFileInputRef.current?.click();
     } else if (fileType === 'image') {
       imageFileInputRef.current?.click();
+    } else if (fileType === 'text') {
+      textFileInputRef.current?.click();
     }
   };
 
@@ -37,7 +43,7 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
   };
 
   // Function to cutout file name with extension
-  const  getCutoutFileName = (fileName) => {
+  const getCutoutFileName = (fileName) => {
     if (fileName.length <= 20) return fileName;
     const extension = fileName.split('.').pop();
     return `${fileName.substr(0, 15)}...${extension}`;
@@ -70,6 +76,11 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
       // Append each image file
       uploadFiles.images.forEach(file => {
         formData.append("images", file);
+      });
+      
+      // Append each text file (if any)
+      uploadFiles.textFiles.forEach(file => {
+        formData.append("textFiles", file);
       });
       
       const response = await fetch(`${baseUrl}/api/v1/admin/fileupload`, {
@@ -111,7 +122,12 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
         
         <div className="mb-6">
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">CAD Files</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="flex items-center">
+                <File className="h-4 w-4 mr-1" />
+                CAD Files <span className="text-red-500 ml-1">*</span>
+              </div>
+            </label>
             <div className="space-y-2">
               {uploadFiles.cadFiles.length > 0 ? (
                 uploadFiles.cadFiles.map((file, index) => (
@@ -144,13 +160,18 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Image Files</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="flex items-center">
+                <Image className="h-4 w-4 mr-1" />
+                Image Files <span className="text-red-500 ml-1">*</span>
+              </div>
+            </label>
             <div className="space-y-2">
               {uploadFiles.images.length > 0 ? (
                 uploadFiles.images.map((file, index) => (
                   <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
                     <div className="flex items-center">
-                      <File className="h-4 w-4 text-gray-500 mr-2" />
+                      <Image className="h-4 w-4 text-gray-500 mr-2" />
                       <span className="text-sm">{ getCutoutFileName(file.name)}</span>
                     </div>
                     <button 
@@ -174,6 +195,44 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
               <Upload className="h-4 w-4 mr-1" /> Select Images
             </button>
             <p className="text-xs text-gray-500 mt-1">Supported formats: JPG, PNG, GIF, etc.</p>
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="flex items-center">
+                <FileText className="h-4 w-4 mr-1" />
+                Text Files <span className="text-gray-400 ml-1">(Optional)</span>
+              </div>
+            </label>
+            <div className="space-y-2">
+              {uploadFiles.textFiles.length > 0 ? (
+                uploadFiles.textFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                    <div className="flex items-center">
+                      <FileText className="h-4 w-4 text-gray-500 mr-2" />
+                      <span className="text-sm">{ getCutoutFileName(file.name)}</span>
+                    </div>
+                    <button 
+                      onClick={() => handleRemoveFile('textFiles', index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center p-4 border-2 border-dashed border-gray-300 rounded-md">
+                  <p className="text-gray-500 text-sm">No text files selected</p>
+                </div>
+              )}
+            </div>
+            <button
+              onClick={() => handleFileUploadClick('text')}
+              className="mt-2 inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800"
+            >
+              <Upload className="h-4 w-4 mr-1" /> Select Text Files
+            </button>
+            <p className="text-xs text-gray-500 mt-1">Supported formats: .txt, .pdf, .doc, .docx, .md, .rtf, .odt, .lxd</p>
           </div>
         </div>
         
@@ -221,6 +280,15 @@ const FileUploadModal = ({ orderId, onClose, onSuccess, baseUrl }) => {
         multiple
         className="hidden"
         accept="image/*"
+      />
+      
+      <input
+        type="file"
+        ref={textFileInputRef}
+        onChange={(e) => handleFileChange(e, 'textFiles')}
+        multiple
+        className="hidden"
+        accept=".txt,.pdf,.doc,.docx,.md,.rtf,.odt,.lxd"
       />
     </div>
   );

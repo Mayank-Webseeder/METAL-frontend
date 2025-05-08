@@ -27,6 +27,8 @@ const useCustomers = (BASE_URL) => {
                 lastName: user.lastName,
                 // Name:user.name,
                 name: `${user.firstName} ${user.lastName}`,
+                email: user.email,
+                phone: user.phone,
             }));
 
             setCustomers(customersList);
